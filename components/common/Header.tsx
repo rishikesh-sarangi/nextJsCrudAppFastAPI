@@ -21,9 +21,11 @@ const Header = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container fluid>
-          <Navbar.Brand href="#home">Employee Portal</Navbar.Brand>
+      <Navbar expand="lg" className="bg-warning">
+        <Container>
+          <Navbar.Brand className="text-uppercase text-dark fw-bold display-3">
+            Employee Portal
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">

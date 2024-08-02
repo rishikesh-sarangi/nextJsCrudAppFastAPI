@@ -43,7 +43,7 @@ const EmployeeList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const { control, handleSubmit, reset, setValue, getValues } =
+  const { control, handleSubmit, reset, setValue, getValues, formState } =
     useForm<EmployeeCreate>({
       defaultValues: {
         emp_name: "",
@@ -98,6 +98,13 @@ const EmployeeList = () => {
   };
 
   const handleSaveClick = async () => {
+    if (!formState.isDirty) {
+      toast.warning("No changes made");
+      setEditingId(null);
+      reset();
+      return;
+    }
+
     if (editingId !== null) {
       const updatedEmployee: EmployeeUpdate = {
         emp_name: getValues("emp_name"),
@@ -120,7 +127,7 @@ const EmployeeList = () => {
 
   const handleCancelClick = () => {
     setEditingId(null);
-    reset(); // Clear form fields
+    reset();
   };
 
   const handleDeleteClick = (emp_id: number) => {
@@ -158,6 +165,18 @@ const EmployeeList = () => {
       >
         Add Employee
       </Button>
+
+      <ResuseableModal
+        show={showDeleteModal}
+        onHide={handleHideDeleteModal}
+        title="Confirm Deletion"
+      >
+        <DeleteConfirmationContent
+          message="Are you sure you want to delete this employee?"
+          onConfirm={confirmDelete}
+          onCancel={handleHideDeleteModal}
+        />
+      </ResuseableModal>
 
       <ResuseableModal
         show={modalShow}
@@ -212,17 +231,6 @@ const EmployeeList = () => {
                       >
                         <Trash />
                       </Button>
-                      <ResuseableModal
-                        show={showDeleteModal}
-                        onHide={handleHideDeleteModal}
-                        title="Confirm Deletion"
-                      >
-                        <DeleteConfirmationContent
-                          message="Are you sure you want to delete this employee?"
-                          onConfirm={confirmDelete}
-                          onCancel={handleHideDeleteModal}
-                        />
-                      </ResuseableModal>
                     </>
                   )}
                 </td>
